@@ -66,6 +66,33 @@ class CalcTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals($expected, $this->calc->getResult());
     }
 
+    /**
+     * @test
+     * @dataProvider values_to_minus
+     */
+    public function it_can_minus($n1, $n2, $expected) {
+        $this->calcPressButtons($n1);
+        $this->calc->pressButton('minus');
+        $this->calcPressButtons($n2);
+        $this->calc->pressButton('equals');
+        $this->assertEquals($expected, $this->calc->getResult());
+    }
+
+    /**
+     * @test
+     * @dataProvider values_to_divide
+     * @param $n1
+     * @param $n2
+     * @param $expected
+     */
+    public function it_can_divide($n1, $n2, $expected) {
+        $this->calcPressButtons($n1);
+        $this->calc->pressButton('minus');
+        $this->calcPressButtons($n2);
+        $this->calc->pressButton('equals');
+        $this->assertEquals($expected, $this->calc->getResult());
+    }
+
     public function button_to_press_data_provider() {
         return [
             ['1'],
@@ -76,7 +103,15 @@ class CalcTest extends PHPUnit_Framework_TestCase {
     public function values_to_add() {
         return [
             ['1', '1', '2'],
-            ['2', '3', '5']
+            ['2', '3', '5'],
+            ['-2', '-3', '-5']
+        ];
+    }
+    public function values_to_minus() {
+        return [
+            ['1', '1', '0'],
+            ['2', '3', '-1'],
+            ['-2', '-3', '1']
         ];
     }
 
@@ -87,6 +122,17 @@ class CalcTest extends PHPUnit_Framework_TestCase {
             ['11', '1'],
             ['-1', '0'],
             ['-11', '-1'],
+        ];
+    }
+    
+    public function values_to_divide()
+    {
+        return [
+            ['10', '5', '2'],
+            ['0', '8', '0'],
+            ['8', '0', 'dude wtf'],
+            ['1', '3', '0,3(3)'],
+            ['-40', '-20', '2']
         ];
     }
 
